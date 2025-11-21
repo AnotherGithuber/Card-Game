@@ -1,0 +1,8 @@
+.npmignore
+.eslintignore
+elm.json
+Makefile
+package-lock.json
+package.json
+elm-stuff
+node_modules

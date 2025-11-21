@@ -1,0 +1,33 @@
+body {
+        background-color: bisque;
+}
+* {
+        box-sizing: border-box;
+}
+div {
+        padding-left:0%;
+        padding-right: 0%;
+}
+.deck {
+        position: relative;
+}
+.border {
+        position: absolute;
+        background: linear-gradient(white, grey);
+        filter: drop-shadow(2px 2px 2px black);
+        width: 150px;
+        height: 250px;
+        border: solid 4px rgb(0, 0, 0);
+        border-radius: 20px;
+        padding: 10px;
+        overflow: hidden;
+        background-color: white;
+}
+.title {
+        text-align: center;
+}
+.image {
+        width: auto;
+        height: auto;
+        align-content: center;
+}
