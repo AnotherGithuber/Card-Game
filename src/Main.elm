@@ -4,18 +4,19 @@ import Html exposing (Html, button, div, text, img)
 import Html.Events exposing (onClick)
 import Browser.Dom exposing (Viewport)
 import Html.Attributes exposing (class, src, style)
+import Platform.Cmd exposing (none)
 
 main =
-        Browser.sandbox
-                { init =
-                        { pressed = False
-                        , list = cardList
-                        }
+        Browser.element
+                { init = init
                 , update = update
+                , subscriptions = \_ -> Sub.none
                 , view = view
                 }
 
-
+init : Int  -> (Model, Cmd Msg)
+init seed =
+        ( {pressed = False, list = cardList}, Cmd.none)
 type alias Model =
     { pressed :  Bool
     , list : List Card
@@ -43,9 +44,9 @@ cardList =
                   , imageSource = "https://imgs.xkcd.com/comics/arcane_bullshit.png"
                   }
         ]
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-        model
+        ( model, Cmd.none )
 view : Model -> Html Msg
 view model =
         div
