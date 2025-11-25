@@ -5,6 +5,7 @@ import Html.Events exposing (onClick)
 import Browser.Dom exposing (Viewport)
 import Html.Attributes exposing (class, src, style)
 import Platform.Cmd exposing (none)
+import Random exposing (..)
 
 main =
         Browser.element
@@ -14,12 +15,18 @@ main =
                 , view = view
                 }
 
+randomValue : Model -> Seed -> ((Int, Seed), Model)
+randomValue model s =
+        (step (Random.int 0 10) s, {model | rng_seed = Tuple.second (step (Random.int 0 10) s) })
+
+
 init : Int  -> (Model, Cmd Msg)
-init seed =
-        ( {pressed = False, list = cardList}, Cmd.none)
+init v =
+        ( {pressed = False, list = cardList, rng_seed = Random.initialSeed v }, Cmd.none)
 type alias Model =
     { pressed :  Bool
     , list : List Card
+    , rng_seed : Random.Seed
     }
 
 type alias Card =
@@ -27,8 +34,75 @@ type alias Card =
         , imageSource : String
         }
 type Msg
-        = Press
+        = Shuffle
         | Maybe 
+
+shuffle : List Int -> List (Card, Int) -> List Card -> Seed -> Model -> List (Card, Int)
+shuffle rList tList list seed model=
+        let
+                finalList = tList
+                randomList =
+                        if List.length rList > 0 then
+                                makeRandomList seed model (List.length list) []
+                        else
+                                rList 
+        in
+                 if List.length list > 0 then
+                        case list of
+                                h :: t ->
+                                        case randomList of
+                                                head :: tail ->
+                                                        shuffle tail ((Tuple.pair h head) :: finalList) list seed model
+                                                [] ->
+                                                        finalList
+                                [] ->
+                                        finalList
+                else
+                        []
+
+zip : List a -> List b -> List (a, b)
+zip ax bx =
+        case (ax, bx) of
+                ( [], _ ) -> []
+                ( _, [] ) -> []
+                ( h0::r0 , h1::r1 ) -> (h0, h1) :: zip r0 r1
+
+shuffle2 : Model -> Model
+shuffle2 model =
+        let
+                (model_, randomList) =
+                        makeRandomList2 model (List.length model.list)
+                newCardList =
+                        zip model.list randomList
+                        |> List.sortBy Tuple.second
+                        |> List.map Tuple.first
+        in
+                { model_ | list =newCardList }
+
+makeRandomList2 : Model -> Int -> (Model, List Float)
+makeRandomList2 model length =
+        let
+                stepper : Seed -> Int -> List Float -> (Seed, List Float)
+                stepper seed countdown acc =
+                        let
+                                (f, newSeed) = Random.step (Random.float 0 1) seed
+                        in
+                                case countdown of
+                                        0 -> (newSeed, acc)
+                                        _ -> stepper newSeed (countdown - 1) (f :: acc)
+                (finalSeed, randList) =
+                        stepper model.rng_seed length []
+        in
+                ( { model | rng_seed = finalSeed }, randList)
+
+
+makeRandomList : Seed -> Model -> Int -> List Int -> List Int
+makeRandomList seed model length currentList =
+        if length > 0 then
+                makeRandomList seed model (length  - 1) currentList
+        else
+                Tuple.first(Tuple.first(randomValue model seed)) :: currentList
+
 
 
 cardList : List Card
@@ -46,15 +120,19 @@ cardList =
         ]
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-        ( model, Cmd.none )
+        case msg of 
+                Shuffle ->
+                        (shuffle2 model, Cmd.none)
+                _ ->
+                        (model, Cmd.none)
 view : Model -> Html Msg
 view model =
         div
                 []
                 [
                 button
-                        [ onClick Press]
-                        [ text "Test" ]
+                        [ onClick Shuffle ]
+                        [ text "Shuffle" ]
                 , div
                         []
                         (readCards model.list)
@@ -90,7 +168,6 @@ readCards list =
                                 []
         
 
-        
 
 viewCard : Int -> Card -> Html Msg
 viewCard offset card =
