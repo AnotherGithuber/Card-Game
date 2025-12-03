@@ -151,7 +151,7 @@ view model =
                         [ text "Shuffle" ]
                 , button
                         [ onClick Discard ]
-                        [ text "Discrard" ]
+                        [ text "Discard" ]
                 , button
                         [ onClick Draw ]
                         [ text "Draw" ] 
