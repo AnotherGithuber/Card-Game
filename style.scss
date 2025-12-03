@@ -23,6 +23,15 @@ div {
         overflow: hidden;
         background-color: white;
 }
+.stack {
+        position: relative;
+        width: 200px;
+        height: 300px;
+        border: 1px solid #444;
+        display: inline-block;
+        margin: 1rem;
+        overflow: hidden;
+}
 .title {
         text-align: center;
 }

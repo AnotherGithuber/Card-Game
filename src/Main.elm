@@ -113,7 +113,7 @@ discard model =
 draw : Model -> Model
 draw model =
         case model.deck of
-            [] -> { model | deck = model.discard }
+            [] -> { model | deck = model.discard, discard = [] }
             (h :: t) -> { model | deck = t, list = h :: model.list }
 cardList : List Card
 cardList =
@@ -156,8 +156,14 @@ view model =
                         [ onClick Draw ]
                         [ text "Draw" ] 
                 , div
-                        []
+                        [ class "stack" ]
+                        (readCards model.deck)
+                , div
+                        [ class "stack" ]
                         (readCards model.list)
+                , div
+                        [ class "stack" ]
+                        (readCards model.discard)
                 ]
 
 len : List a -> Int
