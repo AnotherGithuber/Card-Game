@@ -11,6 +11,62 @@ div {
 .deck {
         position: relative;
 }
+#stacks {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  gap: 20px; 
+  background-color: cadetblue;
+  flex-direction: column;
+}
+#cards {
+        position: relative;
+        display: flex;
+        justify-content: center;
+}
+#overall bottom-area {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-bottom: 20px;
+}
+#grid-area {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+        gap: 0;
+        background: #666;
+        border-right: 1px solid #666;
+        border-bottom: 1px solid #666;
+}
+.grid-cell {
+        background: #fff;
+        box-shadow: -1px 0 0 #666, 0 -1px 0 #666;
+        aspect-ratio: 1 / 1;
+}
+#buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;  
+}
+#divider {
+        width: 100%;
+        color: black;
+        border-bottom: 2px solid #444;
+        margin: 4px 0 8px 0;
+        position: fixed;
+        bottom: 360px;
+
+}
 .border {
         position: absolute;
         background: linear-gradient(white, grey);

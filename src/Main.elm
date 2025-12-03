@@ -3,7 +3,7 @@ import Browser
 import Html exposing (Html, button, div, text, img)
 import Html.Events exposing (onClick)
 import Browser.Dom exposing (Viewport)
-import Html.Attributes exposing (class, src, style)
+import Html.Attributes exposing (class, src, style, id)
 import Platform.Cmd exposing (none)
 import Random exposing (..)
 import Html.Attributes exposing (title)
@@ -143,27 +143,58 @@ update msg model =
                         (discard model, Cmd.none)
 view : Model -> Html Msg
 view model =
-        div
-                []
+        div 
+                [ id "overall" ]
                 [
-                button
-                        [ onClick Shuffle ]
-                        [ text "Shuffle" ]
-                , button
-                        [ onClick Discard ]
-                        [ text "Discard" ]
-                , button
-                        [ onClick Draw ]
-                        [ text "Draw" ] 
+                div
+                        [ id "grid-area"]
+                        [
+                                div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] []
+                                , div [ class "grid-cell" ] [] 
+                        ]
                 , div
-                        [ class "stack" ]
-                        (readCards model.deck)
+                [ id "divider" ]
+                []
                 , div
-                        [ class "stack" ]
-                        (readCards model.list)
-                , div
-                        [ class "stack" ]
-                        (readCards model.discard)
+                        [ id "stacks"]
+                        [
+                        div
+                                [id "buttons"]
+                                [
+                                button
+                                        [ onClick Shuffle ]
+                                        [ text "Shuffle" ]
+                                , button
+                                        [ onClick Discard ]
+                                        [ text "Discard" ]
+                                , button
+                                        [ onClick Draw ]
+                                        [ text "Draw" ] 
+                                ]
+                        , div
+                                [ id "cards" ]
+                                [
+                                div
+                                        [ class "stack" ]
+                                        (readCards model.deck)
+                                , div
+                                        [ class "stack" ]
+                                        (readCards model.list)
+                                , div
+                                        [ class "stack" ]
+                                        (readCards model.discard)
+                                ]
+                        ]
                 ]
 
 len : List a -> Int
