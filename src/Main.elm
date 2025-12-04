@@ -23,14 +23,23 @@ randomValue model s =
 
 init : Int  -> (Model, Cmd Msg)
 init v =
-        ( {pressed = False, deck = deckList, list = cardList, discard = discardList, rng_seed = Random.initialSeed v }, Cmd.none)
+        ( {pressed = False, deck = deckList, list = cardList, discard = discardList, rng_seed = Random.initialSeed v, player = {health =100,position = (1,2),imageSource = "https://upload.wikimedia.org/wikipedia/commons/3/35/Basic_human_drawing.png"}}, Cmd.none)
 type alias Model =
     { pressed :  Bool
     , deck : List Card
     , list : List Card
     , discard : List Card
     , rng_seed : Random.Seed
+    , player : Player
     }
+
+
+type alias Player =
+        {
+                health : Int
+                , position : (Int,Int)
+                , imageSource : String
+        }
 
 type alias Card =
         { name : String
@@ -141,6 +150,233 @@ update msg model =
                         (draw model, Cmd.none)
                 Discard ->
                         (discard model, Cmd.none)
+
+positionToHTMLgrid : Model -> (Int,Int) -> Html Msg
+positionToHTMLgrid model position =
+        case position of
+                (1, 1) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] [  img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (1,2) ->
+                                                div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (2,1) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (2, 2) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (3, 1) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (3, 2) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (4,1) ->
+                                                div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (4,2) ->
+                                                div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (5, 1) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (5,2) ->
+                                                div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (6,1) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ]
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+                (6, 2) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [ img [class "image", src model.player.imageSource] [] ] 
+                                ]
+                (_, _) ->
+                        div
+                                [ id "grid-area"]
+                                [
+                                        div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] []
+                                        , div [ class "grid-cell" ] [] 
+                                ]
+
+
 view : Model -> Html Msg
 view model =
         div 
@@ -148,20 +384,7 @@ view model =
                 [
                 div
                         [ id "grid-area"]
-                        [
-                                div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] []
-                                , div [ class "grid-cell" ] [] 
-                        ]
+                        [(positionToHTMLgrid model model.player.position)]
                 , div
                 [ id "divider" ]
                 []
